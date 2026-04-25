@@ -1,5 +1,4 @@
 # Leleka
 Mili chat
 
-# Collaborators
-# Мінор & Рибак
+# Collaborators - Мінор & Рибак

@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #bac8ee;
+}
+
+.form {
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: #ececf0;
+  box-shadow: 5px 5px 6px rgba(107, 113, 192, 0.6);
+  width: 300px;
+}
+
+.inputGroup {
+  margin-bottom: 1rem;
+  font-family: 'Arial';
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.6); 
+  
+  /* Чтобы тень менялась плавно при наведении */
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.form h2 {
+  text-align: center; 
+  font-family: 'Tahoma'; 
+  font-size: 24px;    
+  font-weight: bold;
+  margin-bottom: 20px; 
+  color: #007bff;        
+}

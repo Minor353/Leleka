@@ -1,0 +1,32 @@
+.user-bar {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.user-bar__head {
+    flex: 1;
+    box-sizing: border-box;
+    padding: 10px 15px;
+}
+
+.user-bar__main {
+    flex: 3;
+}
+
+.user-bar__head-item {
+    display: flex;
+    align-items: center;
+}
+
+.user-bar__head-logo {
+    margin-right: auto;
+}
+
+.user-bar__head-chat-controls {
+    margin-right: 10px;
+}
+
+.user-bar__head-profile-controls {
+    position: relative;
+}

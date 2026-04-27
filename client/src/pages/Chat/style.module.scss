@@ -1,0 +1,16 @@
+.chat-page {
+    display: flex;
+    min-height: 100vh;
+}
+
+.chat-page__aside {
+    min-height: 100vh;
+
+    &:first-child {
+        flex: 1;
+    }
+
+    &:last-child {
+        flex: 3;
+    }
+}

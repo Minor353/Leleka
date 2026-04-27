@@ -46,3 +46,19 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+html, #root, body {
+  min-height: 100vh;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #333E48;
+  line-height: 20px;
+  height: 100%;
+  background-color: #F7F7F7;
+}

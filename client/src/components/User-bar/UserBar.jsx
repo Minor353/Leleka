@@ -16,6 +16,9 @@ export default function UserBar() {
                 <div className={style['user-bar__head-logo']}>
                     <Logo></Logo>
                 </div>
+                <div className={style['user-bar__head-sound-control']}>
+                    <SoundControls></SoundControls>
+                </div>
                 <div className={style['user-bar__head-chat-controls']}>
                     <ChatControls></ChatControls>
                 </div>
@@ -23,13 +26,14 @@ export default function UserBar() {
                     <ProfileControls></ProfileControls>
                 </div>
             </div>
-            <div className={style['user-bar__head-item']}>
-                <SoundControls></SoundControls>
-            </div>
         </div>
         <div className={style['user-bar__main']}>
-            <SearchBar></SearchBar>
-            <UsersList></UsersList>
+            <div className={style['user-bar__main-search']}>
+                <SearchBar></SearchBar>
+            </div>
+            <div className={style['user-bar__main-users']}>
+                <UsersList></UsersList>
+            </div>
         </div>
     </div>
   )

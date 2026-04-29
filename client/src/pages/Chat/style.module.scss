@@ -7,10 +7,10 @@
     min-height: 100vh;
 
     &:first-child {
-        flex: 1;
+        width: 390px;
     }
 
     &:last-child {
-        flex: 3;
+        flex: 1;
     }
 }

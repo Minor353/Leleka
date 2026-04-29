@@ -5,18 +5,32 @@
 }
 
 .user-bar__head {
-    flex: 1;
     box-sizing: border-box;
     padding: 10px 15px;
 }
 
 .user-bar__main {
-    flex: 3;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px;
+}
+
+.user-bar__main-search {
+    margin-bottom: 20px;
+}
+
+.user-bar__main-users {
+    flex: 1;
 }
 
 .user-bar__head-item {
     display: flex;
     align-items: center;
+}
+
+.user-bar__head-sound-control {
+    margin: 0 auto;
 }
 
 .user-bar__head-logo {

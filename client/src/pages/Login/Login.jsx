@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// 1. Імпортуємо стилі як об'єкт (назва 'styles' може бути будь-якою)
+import logo from '../../assets/logo.png';
 import styles from './style.module.css';
 
 const LoginPage = () => {
@@ -16,7 +16,7 @@ const LoginPage = () => {
     // 2. Використовуємо className замість style
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <h2 className={styles.title}>ЛЕЛЕКА</h2>
+        <img src={logo} alt="Лелека Лого" className={styles.logo} />
         
         <div className={styles.inputGroup}>
           <label>Логін:</label>

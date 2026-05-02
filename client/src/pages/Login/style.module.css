@@ -56,3 +56,10 @@
   margin-bottom: 20px; 
   color: #007bff;        
 }
+
+.logo {
+  display: block;
+  margin: 0 auto 20px; /* Центрируем и добавляем отступ снизу */
+  max-width: 200px;    /* Настройте ширину под ваш дизайн */
+  height: auto;
+}

@@ -1,10 +1,10 @@
 .chat-page {
     display: flex;
-    min-height: 100vh;
+    height: 100%;
 }
 
 .chat-page__aside {
-    min-height: 100vh;
+    height: 100%;
 
     &:first-child {
         width: 390px;
@@ -12,5 +12,6 @@
 
     &:last-child {
         flex: 1;
+        overflow: hidden;
     }
 }

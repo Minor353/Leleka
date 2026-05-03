@@ -1,0 +1,61 @@
+.messages-input {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+}
+
+.messages-input__form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.messages-input__input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.messages-input__file-label {
+    margin-left: 10px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: 0.2s;
+
+    &:hover {
+        background-color: rgba(25, 50, 91, 0.3882352941);
+    }
+
+    &::before {
+        content: '📎';
+        font-size: 24px;
+    }
+}
+
+.messages-input__file-input {
+    display: none;
+}
+
+.messages-input__button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #053671;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.messages-input__button:hover {
+    opacity: 0.9;
+}
+

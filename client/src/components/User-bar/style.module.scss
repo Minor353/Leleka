@@ -13,7 +13,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 10px 15px;
+    padding: 10px;
+    min-height: 0;
 }
 
 .user-bar__main-search {
@@ -22,6 +23,9 @@
 
 .user-bar__main-users {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 }
 
 .user-bar__head-item {

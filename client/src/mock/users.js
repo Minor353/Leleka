@@ -1,0 +1,58 @@
+export const users = [
+  {
+    id: 1,
+    username: "minor",
+    password: "123456",
+    displayName: "Мінор",
+    avatar: null,
+  },
+  {
+    id: 2,
+    username: "ribak",
+    password: "123456",
+    displayName: "Рибак",
+    avatar: null,
+  },
+  {
+    id: 3,
+    username: "ghost",
+    password: "123456",
+    displayName: "Ghost",
+    avatar: null,
+  },
+  {
+    id: 4,
+    username: "hawk",
+    password: "123456",
+    displayName: "Hawk",
+    avatar: null,
+  },
+  {
+    id: 5,
+    username: "storm",
+    password: "123456",
+    displayName: "Storm",
+    avatar: null,
+  },
+  {
+    id: 6,
+    username: "viper",
+    password: "123456",
+    displayName: "Viper",
+    avatar: null,
+  },
+  {
+    id: 7,
+    username: "fox",
+    password: "123456",
+    displayName: "Fox",
+    avatar: null,
+  },
+  {
+    id: 8,
+    username: "rook",
+    password: "123456",
+    displayName: "Rook",
+    avatar: null,
+  },
+];

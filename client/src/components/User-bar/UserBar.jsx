@@ -28,9 +28,6 @@ export default function UserBar() {
             </div>
         </div>
         <div className={style['user-bar__main']}>
-            <div className={style['user-bar__main-search']}>
-                <SearchBar></SearchBar>
-            </div>
             <div className={style['user-bar__main-users']}>
                 <UsersList></UsersList>
             </div>

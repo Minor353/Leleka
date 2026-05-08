@@ -1,15 +1,30 @@
-import React from 'react'
-import SearchBar from '../SearchBar/SearchBar'
+import React from 'react';
+import SearchBar from '../SearchBar/SearchBar';
 
-import style from './style.module.scss'
+import { useChat } from '../../context/ChatContext';
 
-export default function ChatHead() {
+import style from './style.module.scss';
+
+export default function ChatHead({ messageSearch, setMessageSearch }) {
+  const { selectedUser } = useChat();
+
   return (
     <div className={style['chat-head']}>
-        <div className={style['chat-head__companion-name']}>Віктор Вран</div>
-        <div className={style['chat-head__search']}> 
-            <SearchBar></SearchBar>
-        </div>
+      <div className={style['chat-head__companion-name']}>
+        {selectedUser
+          ? selectedUser.displayName
+          : 'Оберіть чат'}
+      </div>
+
+      <div className={style['chat-head__search']}>
+        <SearchBar
+          value={messageSearch}
+          onChange={(e) =>
+            setMessageSearch(e.target.value)
+          }
+          placeholder="Пошук повідомлень..."
+        />
+      </div>
     </div>
-  )
+  );
 }

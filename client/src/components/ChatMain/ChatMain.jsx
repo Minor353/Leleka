@@ -4,10 +4,10 @@ import MessagesInput from '../MessagesInput/MessagesInput'
 
 import style from './style.module.scss'
 
-export default function ChatMain() {
+export default function ChatMain({ messageSearch }) {
   return (
     <div className={style['chat-main']}>
-        <MessagesBox></MessagesBox>
+        <MessagesBox messageSearch={messageSearch}></MessagesBox>
         <MessagesInput></MessagesInput>
     </div>
   )

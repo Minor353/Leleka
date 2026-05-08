@@ -1,42 +1,63 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
+import { users } from "../../mock/users";
+import { useUser } from "../../context/UserContext";
+
 import logo from '../../assets/logo.png';
+
 import styles from './style.module.css';
 
-const LoginPage = () => {
+export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+  const { login } = useUser();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Дані для входу:', { username, password });
-    alert(`Спроба входу для: ${username}`);
+
+    const foundUser = users.find(
+      (user) =>
+        user.username === username &&
+        user.password === password
+    );
+
+    if (!foundUser) {
+      alert('Невірний логін або пароль');
+      return;
+    }
+
+    login(foundUser);
+
+    navigate('/chat');
   };
 
   return (
-    // 2. Використовуємо className замість style
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
         <img src={logo} alt="Лелека Лого" className={styles.logo} />
         
         <div className={styles.inputGroup}>
-          <label>Логін:</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className={styles.input}
             required
+            placeholder='Логін:'
           />
         </div>
 
         <div className={styles.inputGroup}>
-          <label>Пароль:</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className={styles.input}
             required
+            placeholder='Пароль:'
           />
         </div>
 
@@ -47,5 +68,3 @@ const LoginPage = () => {
     </div>
   );
 };
-
-export default LoginPage;

@@ -5,6 +5,8 @@ import { users } from '../../mock/users'
 import { useContacts } from '../../context/ContactsContext'
 import { useUser } from '../../context/UserContext'
 
+import SearchBar from '../SearchBar/SearchBar'
+
 import style from './style.module.scss'
 
 export default function NewContactModal({ onClose }) {
@@ -50,12 +52,10 @@ export default function NewContactModal({ onClose }) {
         className={style['new-contact__modal']}
         onClick={(e) => e.stopPropagation()}
       >
-        <input
-            className={style['new-contact__search']}
-            type="text"
-            placeholder="Знайти користувача за іменем або ID"
+        <SearchBar
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            placeholder="Знайти користувача за іменем або ID"
         />
         <ul className={style['new-contact__list']}>
             {availableUsers.length > 0 ? (

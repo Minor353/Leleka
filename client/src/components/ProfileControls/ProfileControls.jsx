@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useUser } from "../../context/UserContext"
+import { useChat } from "../../context/ChatContext"
 
 import style from './style.module.scss'
 import newChatImg from '../../assets/kebab-menu.svg'
@@ -14,6 +15,7 @@ export default function ProfileControls() {
 
   const navigate = useNavigate();
   const { logout } = useUser();
+  const { clearSelectedUser } = useChat();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -21,6 +23,7 @@ export default function ProfileControls() {
 
   const handleLogout = () => {
     logout();
+    clearSelectedUser();
     navigate('/login');
   }
 

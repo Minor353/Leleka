@@ -9,7 +9,7 @@ import { useEffect, useRef } from 'react'
 
 import style from './style.module.scss'
 
-export default function MessagesBox() {
+export default function MessagesBox({ messageSearch }) {
 
     const messagesEndRef = useRef(null);
 
@@ -32,6 +32,13 @@ export default function MessagesBox() {
         );
     });
 
+    const filteredMessages = currentMessages.filter(
+        (message) =>
+            message.text
+            .toLowerCase()
+            .includes(messageSearch.toLowerCase())
+    );
+
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({
             behavior: 'smooth',
@@ -42,7 +49,7 @@ export default function MessagesBox() {
   return (
     <div className={style['messages-box']}>
         <ul className={style['messages-box__list']}>
-            {currentMessages.map((message) => (
+            {filteredMessages.map((message) => (
                 <li key={message.id} className={style['messages-box__list-item']}>
                     <Message
                         message={message}

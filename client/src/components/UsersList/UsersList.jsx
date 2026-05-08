@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
 
+import { useEffect } from 'react';
+
 import UsersItem from '../UsersItem/UsersItem'
 import SearchBar from '../SearchBar/SearchBar';
 
@@ -10,6 +12,7 @@ import { useContacts } from '../../context/ContactsContext'
 import { useUser } from "../../context/UserContext"
 import { useChat } from '../../context/ChatContext';
 import { useMessages } from '../../context/MessagesContext';
+import { useUnread } from '../../context/UnreadContext';
 
 import style from './style.module.scss'
 
@@ -18,6 +21,7 @@ export default function UsersList() {
     const { contacts } = useContacts();
     const { messages } = useMessages();
     const { setSelectedUserId, selectedUserId } = useChat();
+    const { unreadMessages, clearUnread } = useUnread();
 
     const [search, setSearch] = useState('');
 
@@ -70,6 +74,12 @@ export default function UsersList() {
 
         return dialogMessages[dialogMessages.length - 1];
     }
+
+    useEffect(() => {
+        if (selectedUserId) {
+            clearUnread(selectedUserId);
+        }
+    }, [selectedUserId]);
     
   return (
     <>
@@ -93,6 +103,7 @@ export default function UsersList() {
                             lastMessage={lastMessage}
                             isActive={selectedUserId === user.id}
                             onClick={() => setSelectedUserId(user.id)}
+                            unreadCount={unreadMessages[user.id]}
                         />
                     </li>
                 )}

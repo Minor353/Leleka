@@ -5,7 +5,7 @@ import { formatMessageDate } from '../../helpers/formatMessageTime'
 import style from './style.module.scss'
 import avatar from '../../assets/avatar.png'
 
-export default function UsersItem({ user, isActive, onClick, lastMessage }) {
+export default function UsersItem({ user, isActive, onClick, lastMessage, unreadCount }) {
     const formattedDate = lastMessage
         ? formatMessageDate(lastMessage.createdAt)
         : '';
@@ -33,6 +33,11 @@ export default function UsersItem({ user, isActive, onClick, lastMessage }) {
                 </div>
             </div>
         </div>
+        {unreadCount > 0 && (
+            <span className={style['users-item__unread']}>
+                {unreadCount}
+            </span>
+        )}
     </div>
   )
 }

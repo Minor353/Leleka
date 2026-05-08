@@ -5,7 +5,7 @@ import { useChat } from '../../context/ChatContext';
 
 import style from './style.module.scss';
 
-export default function ChatHead() {
+export default function ChatHead({ messageSearch, setMessageSearch }) {
   const { selectedUser } = useChat();
 
   return (
@@ -17,7 +17,13 @@ export default function ChatHead() {
       </div>
 
       <div className={style['chat-head__search']}>
-        <SearchBar />
+        <SearchBar
+          value={messageSearch}
+          onChange={(e) =>
+            setMessageSearch(e.target.value)
+          }
+          placeholder="Пошук повідомлень..."
+        />
       </div>
     </div>
   );

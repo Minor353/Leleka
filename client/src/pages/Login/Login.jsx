@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import { users } from "../../mock/users";
 import { useUser } from "../../context/UserContext";
 
 import logo from '../../assets/logo.png';
@@ -15,23 +14,16 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const { login } = useUser();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const foundUser = users.find(
-      (user) =>
-        user.username === username &&
-        user.password === password
-    );
+    try {
+      await login(username, password);
 
-    if (!foundUser) {
-      alert('Невірний логін або пароль');
-      return;
+      navigate("/chat");
+    } catch (error) {
+      alert(error.message);
     }
-
-    login(foundUser);
-
-    navigate('/chat');
   };
 
   return (

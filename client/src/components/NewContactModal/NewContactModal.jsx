@@ -1,9 +1,8 @@
 import { useState } from 'react'
 
-import { users } from '../../mock/users'
-
 import { useContacts } from '../../context/ContactsContext'
 import { useUser } from '../../context/UserContext'
+import { useUsers } from '../../context/UsersContext'
 
 import SearchBar from '../SearchBar/SearchBar'
 
@@ -14,6 +13,7 @@ export default function NewContactModal({ onClose }) {
 
     const { currentUser } = useUser();
     const { contacts, addContact } = useContacts();
+    const { users } = useUsers();
 
     const currentUserContacts = contacts.filter(
         (contact) => contact.userId === currentUser.id
@@ -61,8 +61,12 @@ export default function NewContactModal({ onClose }) {
             {availableUsers.length > 0 ? (
                 availableUsers.map((user) => (
                     <li 
-                        onClick={() => {
-                            addContact(currentUser.id, user.id);
+                        onClick={async () => {
+                            try {
+                                await addContact(user.id);
+                            } catch (error) {
+                                alert(error.message);
+                            }
                         }}
                         key={user.id} 
                         className={style['new-contact__list-item']}>

@@ -1,21 +1,73 @@
 import { createContext, useContext, useState } from 'react'
-
-import { contacts as mockContacts } from '../mock/contacts'
+import { useUser } from './UserContext'
+import { useEffect } from 'react'
 
 const ContactsContext = createContext(null);
 
 export function ContactsProvider({ children }) {
-  const [contacts, setContacts] = useState(mockContacts);
+  const { currentUser } = useUser();
+  const [contacts, setContacts] = useState([]);
 
-  const addContact = (userId, contactId) => {
+  const addContact = async (contactId) => {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+      "http://localhost:5000/contacts",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          contactId,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+
     setContacts((prev) => [
       ...prev,
-      {
-        userId,
-        contactId,
-      },
+      data,
     ]);
   };
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      const token =
+        localStorage.getItem("token");
+
+      if (!token || !currentUser) {
+        setContacts([]);
+        return;
+      }
+
+      const response = await fetch(
+        "http://localhost:5000/contacts",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setContacts([]);
+        return;
+      }
+
+      setContacts(data);
+    };
+
+    fetchContacts();
+  }, [currentUser]);
 
   return (
     <ContactsContext.Provider

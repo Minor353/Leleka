@@ -4,6 +4,8 @@ import {
   useState,
 } from 'react';
 
+import { socket } from '../socket';
+
 import { useEffect, useRef } from 'react';
 
 import { useUser } from './UserContext';
@@ -26,6 +28,34 @@ export function MessagesProvider({ children }) {
   useEffect(() => {
     selectedUserIdRef.current = selectedUserId;
   }, [selectedUserId]);
+
+  useEffect(() => {
+    const handleNewMessage = (message) => {
+      setMessages((prev) => [
+        ...prev,
+        message,
+      ]);
+
+      if (
+        selectedUserIdRef.current !==
+        message.senderId
+      ) {
+        incrementUnread(message.senderId);
+      }
+    };
+
+    socket.on(
+      "message:new",
+      handleNewMessage
+    );
+
+    return () => {
+      socket.off(
+        "message:new",
+        handleNewMessage
+      );
+    };
+  }, [incrementUnread]);
 
   useEffect(() => {
     const fetchAllDialogs = async () => {

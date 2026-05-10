@@ -5,6 +5,8 @@ import {
   useState,
 } from "react";
 
+import { socket } from '../socket';
+
 const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
@@ -85,6 +87,16 @@ export const UserProvider = ({ children }) => {
     checkAuth();
 
   }, []);
+
+  useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
+
+    socket.emit("user:online", {
+      userId: currentUser.id,
+    });
+  }, [currentUser]);
 
   return (
     <UserContext.Provider

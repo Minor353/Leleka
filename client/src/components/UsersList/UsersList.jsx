@@ -1,18 +1,17 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState } from 'react'
 
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 
 import UsersItem from '../UsersItem/UsersItem'
-import SearchBar from '../SearchBar/SearchBar';
-
-import { users } from '../../mock/users'
+import SearchBar from '../SearchBar/SearchBar'
 
 import { useContacts } from '../../context/ContactsContext'
 import { useUser } from "../../context/UserContext"
-import { useChat } from '../../context/ChatContext';
-import { useMessages } from '../../context/MessagesContext';
-import { useUnread } from '../../context/UnreadContext';
+import { useChat } from '../../context/ChatContext'
+import { useMessages } from '../../context/MessagesContext'
+import { useUnread } from '../../context/UnreadContext'
+import { useUsers } from '../../context/UsersContext'
 
 import style from './style.module.scss'
 
@@ -22,8 +21,13 @@ export default function UsersList() {
     const { messages } = useMessages();
     const { setSelectedUserId, selectedUserId } = useChat();
     const { unreadMessages, clearUnread } = useUnread();
+    const { users } = useUsers();
 
     const [search, setSearch] = useState('');
+
+    if (!currentUser) {
+        return null;
+    }
 
     const currentUserContacts = contacts.filter(
         (contact) => contact.userId === currentUser.id

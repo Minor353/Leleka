@@ -49,3 +49,39 @@ export const getDialogMessagesController =
       });
     }
   };
+
+export const uploadFilesMessageController =
+  async (req, res) => {
+    try {
+      const { receiverId, text = "" } = req.body;
+
+      const files = req.files.map((file) => ({
+        url: `/uploads/${file.filename}`,
+        name: file.originalname,
+        mimeType: file.mimetype,
+        size: file.size,
+      }));
+
+      const message =
+        await sendMessage({
+          senderId: req.user.userId,
+          receiverId,
+          text,
+          type: "files",
+          files,
+        });
+
+      const io = getIO();
+
+      io.to(receiverId).emit(
+        "message:new",
+        message
+      );
+
+      res.status(201).json(message);
+    } catch (error) {
+      res.status(400).json({
+        message: error.message,
+      });
+    }
+  };

@@ -32,13 +32,18 @@ const ensureContactExists = async (
 export const sendMessage = async ({
   senderId,
   receiverId,
-  text,
+  text = "",
+  type = "text",
+  files = [],
 }) => {
-  if (!text.trim()) {
+    const hasText = text.trim().length > 0;
+    const hasFiles = files.length > 0;
+
+    if (!hasText && !hasFiles) {
     throw new Error(
-      "Message cannot be empty"
+        "Message cannot be empty"
     );
-  }
+    }
 
   if (senderId === receiverId) {
     throw new Error(
@@ -69,16 +74,20 @@ export const sendMessage = async ({
   const message = await createMessage({
     senderId,
     receiverId,
+    type,
     text,
+    files,
   });
 
   return {
     id: message._id,
     senderId:
-      message.senderId.toString(),
+        message.senderId.toString(),
     receiverId:
-      message.receiverId.toString(),
+        message.receiverId.toString(),
+    type: message.type,
     text: message.text,
+    files: message.files,
     createdAt: message.createdAt,
   };
 };
@@ -99,5 +108,7 @@ export const getDialogMessages =
         message.receiverId.toString(),
       text: message.text,
       createdAt: message.createdAt,
+      type: message.type,
+      files: message.files,
     }));
   };

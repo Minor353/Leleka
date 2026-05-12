@@ -14,11 +14,41 @@ const messageSchema = new mongoose.Schema(
       required: true,
     },
 
+    type: {
+      type: String,
+      enum: ["text", "files"],
+      default: "text",
+    },
+
     text: {
       type: String,
-      required: true,
       trim: true,
+      default: "",
     },
+
+    files: [
+      {
+        url: {
+          type: String,
+          required: true,
+        },
+
+        name: {
+          type: String,
+          required: true,
+        },
+
+        mimeType: {
+          type: String,
+          required: true,
+        },
+
+        size: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

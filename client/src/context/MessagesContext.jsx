@@ -1,17 +1,13 @@
-import {
-  createContext,
-  useContext,
-  useState,
-} from 'react';
+import { createContext, useContext, useState } from "react";
 
-import { socket } from '../socket';
+import { socket } from "../socket";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
-import { useUser } from './UserContext';
-import { useUnread } from './UnreadContext';
-import { useChat } from './ChatContext';
-import { useContacts } from './ContactsContext';
+import { useUser } from "./UserContext";
+import { useUnread } from "./UnreadContext";
+import { useChat } from "./ChatContext";
+import { useContacts } from "./ContactsContext";
 
 const MessagesContext = createContext(null);
 
@@ -31,29 +27,17 @@ export function MessagesProvider({ children }) {
 
   useEffect(() => {
     const handleNewMessage = (message) => {
-      setMessages((prev) => [
-        ...prev,
-        message,
-      ]);
+      setMessages((prev) => [...prev, message]);
 
-      if (
-        selectedUserIdRef.current !==
-        message.senderId
-      ) {
+      if (selectedUserIdRef.current !== message.senderId) {
         incrementUnread(message.senderId);
       }
     };
 
-    socket.on(
-      "message:new",
-      handleNewMessage
-    );
+    socket.on("message:new", handleNewMessage);
 
     return () => {
-      socket.off(
-        "message:new",
-        handleNewMessage
-      );
+      socket.off("message:new", handleNewMessage);
     };
   }, [incrementUnread]);
 
@@ -75,7 +59,7 @@ export function MessagesProvider({ children }) {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
-              }
+              },
             );
 
             if (!response.ok) {
@@ -83,7 +67,7 @@ export function MessagesProvider({ children }) {
             }
 
             return await response.json();
-          })
+          }),
         );
 
         setMessages(dialogs.flat());
@@ -109,7 +93,7 @@ export function MessagesProvider({ children }) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -121,22 +105,15 @@ export function MessagesProvider({ children }) {
       setMessages((prev) => {
         const otherMessages = prev.filter((message) => {
           const isCurrentDialog =
-            (
-              message.senderId === currentUser.id &&
-              message.receiverId === selectedUserId
-            ) ||
-            (
-              message.senderId === selectedUserId &&
-              message.receiverId === currentUser.id
-            );
+            (message.senderId === currentUser.id &&
+              message.receiverId === selectedUserId) ||
+            (message.senderId === selectedUserId &&
+              message.receiverId === currentUser.id);
 
           return !isCurrentDialog;
         });
 
-        return [
-          ...otherMessages,
-          ...data,
-        ];
+        return [...otherMessages, ...data];
       });
     };
 
@@ -144,11 +121,20 @@ export function MessagesProvider({ children }) {
   }, [currentUser, selectedUserId]);
 
   async function sendMessage(message) {
-    const token = localStorage.getItem("token");
+    const tempId = `temp-${Date.now()}`;
 
-    const response = await fetch(
-      "http://localhost:5000/messages",
-      {
+    const optimisticMessage = {
+      ...message,
+      id: tempId,
+      status: "sending",
+    };
+
+    setMessages((prev) => [...prev, optimisticMessage]);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch("http://localhost:5000/messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -158,8 +144,52 @@ export function MessagesProvider({ children }) {
           receiverId: message.receiverId,
           text: message.text,
         }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message);
       }
-    );
+
+      setMessages((prev) =>
+        prev.map((item) => (item.id === tempId ? data : item)),
+      );
+    } catch (error) {
+      setMessages((prev) =>
+        prev.map((item) =>
+          item.id === tempId
+            ? {
+                ...item,
+                status: "failed",
+              }
+            : item,
+        ),
+      );
+
+      throw error;
+    }
+  }
+
+  async function sendFilesMessage({ receiverId, text, files }) {
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+
+    formData.append("receiverId", receiverId);
+    formData.append("text", text);
+
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const response = await fetch("http://localhost:5000/messages/files", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
 
     const data = await response.json();
 
@@ -167,10 +197,7 @@ export function MessagesProvider({ children }) {
       throw new Error(data.message);
     }
 
-    setMessages((prev) => [
-      ...prev,
-      data,
-    ]);
+    setMessages((prev) => [...prev, data]);
   }
 
   return (
@@ -178,6 +205,7 @@ export function MessagesProvider({ children }) {
       value={{
         messages,
         sendMessage,
+        sendFilesMessage,
       }}
     >
       {children}

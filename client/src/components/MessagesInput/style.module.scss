@@ -12,15 +12,24 @@
 
 .messages-input__input {
     flex: 1;
-    padding: 10px;
+    min-height: 40px;
+    max-height: 120px;
+    padding: 5px 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    box-sizing: border-box;
     font-size: 14px;
+    resize: none;
+    overflow-y: auto;
+    line-height: 14px;
+    font-family: inherit;
 }
 
-.messages-input__file-label {
+.messages-input__file-button {
     margin-left: 10px;
     cursor: pointer;
+    border: none;
+    padding: 0;
     width: 30px;
     height: 30px;
     display: flex;

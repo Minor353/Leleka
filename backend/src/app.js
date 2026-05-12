@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import path from "path";
 
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -10,6 +11,12 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.get("/uploads/:filename", (req, res) => {
+  const filePath = `uploads/${req.params.filename}`;
+
+  res.download(filePath);
+});
 
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);

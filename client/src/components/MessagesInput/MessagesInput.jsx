@@ -1,21 +1,49 @@
 import React from 'react'
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { useMessages } from '../../context/MessagesContext';
 import { useUser } from '../../context/UserContext';
 import { useChat } from '../../context/ChatContext';
 
+import FileUploadModal from '../FileUploadModal/FileUploadModal';
+
 import style from './style.module.scss'
 
 export default function MessagesInput() {
   const [text, setText] = useState('');
+  const [isUploadOpen, setIsUploadOpen] =
+  useState(false);
 
-  const { sendMessage, messages } = useMessages();
+  const textareaRef = useRef(null);
+
+  const { sendMessage } = useMessages();
   const { currentUser } = useUser();
   const { selectedUserId } = useChat();
 
   const isChatSelected = Boolean(selectedUserId);
+
+  function handleChange(e) {
+    setText(e.target.value);
+
+    const textarea = textareaRef.current;
+
+    if (!textarea) return;
+
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  }
+
+  function handleKeyDown(e) {
+    if (
+      e.key === "Enter" &&
+      !e.shiftKey
+    ) {
+      e.preventDefault();
+
+      handleSubmit(e);
+    }
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -33,6 +61,10 @@ export default function MessagesInput() {
     sendMessage(newMessage);
 
     setText('');
+
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+    }
   }
 
   return (
@@ -43,23 +75,32 @@ export default function MessagesInput() {
           method="post"
           onSubmit={handleSubmit}
         >
-            <input 
+            <textarea
+              ref={textareaRef}
               disabled={!isChatSelected}
-              value={text} 
-              onChange={(e) => setText(e.target.value)} 
-              type="text" 
-              className={style['messages-input__input']} 
+              value={text}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              className={style['messages-input__input']}
               placeholder={
                 isChatSelected
                   ? 'Ваше повідомлення...'
                   : 'Оберіть чат'
-              } 
+              }
             />
-            <label className={style['messages-input__file-label']}>
-                <input disabled={!isChatSelected}  type="file" name="#" className={style['messages-input__file-input']} />
-            </label>
+            <button
+              type="button"
+              disabled={!isChatSelected}
+              onClick={() => setIsUploadOpen(true)}
+              className={style['messages-input__file-button']}
+            >
+            </button>
             <button disabled={!isChatSelected} type="submit" className={style['messages-input__button']}>Відправити</button>
         </form>
+        <FileUploadModal
+          isOpen={isUploadOpen}
+          onClose={() => setIsUploadOpen(false)}
+        />
     </div>
   )
 }
